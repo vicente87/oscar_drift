@@ -1,0 +1,15 @@
+functions:
+  oscar:
+    - oscar-cluster:
+        name: drs-service
+        memory: 2Gi
+        cpu: '2'
+        image: ghcr.io/grycap/drs-api
+        script: script.sh
+        log_level: INFO
+        input:
+          - storage_provider: minio
+            path: upload/input
+        output:
+          - storage_provider: minio
+            path: drs/output

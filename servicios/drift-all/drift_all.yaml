@@ -1,0 +1,55 @@
+functions:
+  oscar:
+    - oscar-cluster:
+        name: drs-service
+        memory: 2Gi
+        cpu: '2'
+        image: ghcr.io/grycap/drs-api
+        script: drs-script.sh
+        log_level: INFO
+        input:
+          - storage_provider: minio
+            path: upload/input
+        output:
+          - storage_provider: minio
+            path: drs/output
+    - oscar-cluster:
+        name: emc-service
+        memory: 2Gi
+        cpu: '2'
+        image: ghcr.io/grycap/emc-api
+        script: emc-script.sh
+        log_level: INFO
+        input:
+          - storage_provider: minio
+            path: drs/output
+        output:
+          - storage_provider: minio
+            path: emc/output
+    - oscar-cluster:
+        name: dds-service
+        memory: 2Gi
+        cpu: '2'
+        image: ghcr.io/grycap/dds-api
+        script: dds-script.sh
+        log_level: INFO
+        input:
+          - storage_provider: minio
+            path: emc/output
+        output:
+          - storage_provider: minio
+            path: dds/output
+    - oscar-cluster:
+        name: mls-service
+        memory: 2Gi
+        cpu: '2'
+        image: ghcr.io/grycap/mls-api
+        script: mls-script.sh
+        log_level: INFO
+        input:
+          - storage_provider: minio
+            path: upload/input
+        output:
+          - storage_provider: minio
+            path: mls/output        
+

@@ -1,0 +1,23 @@
+functions:
+  oscar:
+    - oscar-cluster:
+        name: mls-service
+        memory: 2Gi
+        cpu: '2'
+        image: ghcr.io/grycap/mls-api
+        script: script.sh
+        log_level: INFO
+        input:
+          - storage_provider: minio
+            path: upload/input
+        output:
+          - storage_provider: minio
+            path: mls/output
+storage_providers:
+  minio:
+    minio:
+      endpoint: 'https://minio.nervous-brahmagupta6.im.grycap.net'
+      region: us-east-1
+      access_key: minio
+      secret_key: minio123
+      verify: false

@@ -5,6 +5,7 @@
 
 import os
 import sys
+import time
 from minio import Minio
 import urllib3
 import io
@@ -34,7 +35,7 @@ client = Minio(
     
 )
 # Number of objects (N embedding)
-objCount=3
+objCount=980
 
 # List the output bucket of the DRS service
 objects = client.list_objects("drs", recursive=True, prefix="output/",)
@@ -89,6 +90,7 @@ if objList>objCount+1:
         objects = client.list_objects("drs", recursive=True, prefix="output/",)
         for ii in objects:
              client.remove_object("drs", ii.object_name)
+             time.sleep(1)
         #client.put_object( "dimensionality", "/output/", io.BytesIO(b""), 0, )
         print("Process completed ...")
 else:
